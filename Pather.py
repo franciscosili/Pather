@@ -157,3 +157,18 @@ class Pather:
         return Pather(str(self.output_path), str(new_path.relative_to(self.output_path)))
     #===============================================================================================
 #===================================================================================================
+
+
+if __name__ == "__main__":
+    from tempfile import TemporaryDirectory
+
+    with TemporaryDirectory(prefix="pather_example_") as temporary_dir:
+        outputs = Pather(temporary_dir, "run_{number}")
+        outputs.set_params({"number": 42})
+
+        report = outputs / "summary.txt"
+        report.write_text("done\n")
+
+        plots = outputs.get_path("plots")
+        print(f"Report: {report.path}")
+        print(f"Plots directory: {plots.path}")
